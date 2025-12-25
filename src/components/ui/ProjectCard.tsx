@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ProjectFrontmatter } from "@/lib/markdown";
+import type { ProjectFrontmatter } from "../../lib/markdown";
 
 interface ProjectCardProps {
     project: ProjectFrontmatter;

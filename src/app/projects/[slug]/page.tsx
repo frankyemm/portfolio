@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { getProjectBySlug, getAllProjectSlugs } from "@/lib/markdown";
-import { ProjectPageClient } from "@/app/projects/[slug]/ProjectPageClient";
+import { getProjectBySlug, getAllProjectSlugs } from "../../../lib/markdown";
+import { ProjectPageClient } from "./ProjectPageClient";
 
 interface ProjectPageProps {
     params: Promise<{ slug: string }>;

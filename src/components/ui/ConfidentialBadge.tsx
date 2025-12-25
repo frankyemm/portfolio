@@ -10,8 +10,8 @@ export function ConfidentialBadge() {
             className="relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
         >
             {/* Animated gradient border */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary bg-[length:200%_100%] animate-gradient opacity-50" />
-            <div className="absolute inset-[1px] rounded-full bg-background-secondary" />
+            <div className="absolute inset-0 rounded-full bg-linear-to-r from-accent-primary via-accent-secondary to-accent-primary bg-size-[200%_100%] animate-gradient opacity-50" />
+            <div className="absolute inset-px rounded-full bg-background-secondary" />
 
             {/* Lock icon */}
             <svg

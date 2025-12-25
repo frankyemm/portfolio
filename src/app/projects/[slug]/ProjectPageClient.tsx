@@ -4,8 +4,8 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import { useEffect, useState } from "react";
-import { mdxComponents } from "@/lib/mdx-components";
-import type { ProjectFrontmatter } from "@/lib/markdown";
+import { mdxComponents } from "../../../lib/mdx-components";
+import type { ProjectFrontmatter } from "../../../lib/markdown";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 
 interface ProjectPageClientProps {

@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { ProjectCard } from "@/components/ui/ProjectCard";
-import type { ProjectFrontmatter } from "@/lib/markdown";
+import { ProjectCard } from "../components/ui/ProjectCard";
+import type { ProjectFrontmatter } from "../lib/markdown";
 
 // Typewriter Effect Component
 function TypewriterText({ text }: { text: string }) {
@@ -12,7 +11,6 @@ function TypewriterText({ text }: { text: string }) {
   const indexRef = useRef(0);
 
   useEffect(() => {
-    // Typewriter character-by-character
     const typeInterval = setInterval(() => {
       if (indexRef.current < text.length) {
         setDisplayedText(text.slice(0, indexRef.current + 1));
@@ -20,9 +18,8 @@ function TypewriterText({ text }: { text: string }) {
       } else {
         clearInterval(typeInterval);
       }
-    }, 80); // Mechanical typing speed
+    }, 80);
 
-    // Cursor blink
     const cursorInterval = setInterval(() => {
       setShowCursor((prev) => !prev);
     }, 400);
@@ -37,13 +34,15 @@ function TypewriterText({ text }: { text: string }) {
     <span>
       {displayedText}
       <span
+        aria-hidden="true"
         style={{
           display: "inline-block",
           width: "16px",
           height: "20px",
-          backgroundColor: showCursor ? "var(--gray-light)" : "transparent",
+          backgroundColor: showCursor ? "var(--neon-cyan)" : "transparent",
           marginLeft: "4px",
           verticalAlign: "middle",
+          boxShadow: showCursor ? "0 0 10px var(--neon-cyan)" : "none",
         }}
       />
     </span>
@@ -67,9 +66,11 @@ function HeroSection() {
 
   return (
     <section
+      id="hero"
+      aria-label="Introduction"
       className="min-h-screen flex items-center justify-center"
       style={{
-        background: "var(--blue-petrolium)",
+        background: "var(--bg-void)",
         padding: "48px 24px",
       }}
     >
@@ -90,10 +91,11 @@ function HeroSection() {
         <h1
           style={{
             fontSize: "clamp(12px, 3vw, 20px)",
-            color: "var(--gray-light)",
+            color: "var(--neon-cyan)",
             marginBottom: "24px",
             lineHeight: 1.8,
             minHeight: "80px",
+            textShadow: "0 0 20px rgba(0, 243, 255, 0.5)",
           }}
         >
           {mounted ? (
@@ -106,7 +108,7 @@ function HeroSection() {
         {/* Subtitle */}
         <p
           style={{
-            color: "var(--gray-light)",
+            color: "var(--foreground-muted)",
             marginBottom: "48px",
             maxWidth: "600px",
             margin: "0 auto 48px",
@@ -119,13 +121,16 @@ function HeroSection() {
         >
           TRANSFORMING COMPLEX CHALLENGES INTO ELEGANT SOLUTIONS.
           <br />
-          SECURITY AND PERFORMANCE ARE NON-NEGOTIABLE.
+          <span style={{ color: "var(--hyper-purple)" }}>
+            SECURITY AND PERFORMANCE ARE NON-NEGOTIABLE.
+          </span>
         </p>
 
         {/* CTA Button */}
         <button
           onClick={handleScrollClick}
           className="retro-btn"
+          aria-label="View case studies"
           style={{
             opacity: mounted ? 1 : 0,
             animation: mounted
@@ -139,9 +144,10 @@ function HeroSection() {
 
         {/* Scroll indicator */}
         <div
+          aria-hidden="true"
           style={{
             marginTop: "64px",
-            color: "var(--teal-dark)",
+            color: "var(--hyper-purple)",
             opacity: mounted ? 1 : 0,
             animation: mounted
               ? "retro-blink 1s steps(1) infinite 2.5s"
@@ -155,43 +161,70 @@ function HeroSection() {
   );
 }
 
-// Approach Section
+// Approach Section with 2x2 Grid and 8-bit Animations
 function ApproachSection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const approaches = [
     {
       num: "01",
       title: "DISCOVERY",
-      description:
-        'IDENTIFY THE CORE PROBLEM. ASK: "IS REAL-TIME SYNC REQUIRED?"',
+      description: 'IDENTIFY THE CORE PROBLEM. ASK: "IS REAL-TIME SYNC REQUIRED?"',
+      icon: "🔍",
     },
     {
       num: "02",
       title: "ARCHITECTURE",
       description: "MAP DATA FLOW. APPLY SOC AND SRP PRINCIPLES.",
+      icon: "🏗️",
     },
     {
       num: "03",
       title: "IMPLEMENTATION",
       description: "BUILD IN SMALL INCREMENTS. TYPESCRIPT + CLEAN CODE.",
+      icon: "⚡",
     },
     {
       num: "04",
       title: "VERIFICATION",
       description: "TEST EDGE CASES. DOCUMENT THE WHY BEHIND DECISIONS.",
+      icon: "✓",
     },
   ];
 
   return (
     <section
+      ref={sectionRef}
       id="approach"
+      aria-label="Development methodology"
       style={{
-        background: "var(--gray-dark)",
+        background: "var(--card-carbon)",
         padding: "96px 24px",
       }}
     >
       <div className="container-retro">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "64px" }}>
+        <header style={{ textAlign: "center", marginBottom: "64px" }}>
           <span
             className="retro-badge retro-badge-warning"
             style={{ marginBottom: "16px" }}
@@ -200,49 +233,45 @@ function ApproachSection() {
           </span>
           <h2
             style={{
-              color: "var(--gray-light)",
+              color: "var(--neon-cyan)",
               marginTop: "24px",
+              textShadow: "0 0 15px rgba(0, 243, 255, 0.4)",
             }}
           >
             {"// HOW I APPROACH PROBLEMS //"}
           </h2>
-        </div>
+        </header>
 
-        {/* Cards Grid */}
+        {/* 2x2 Grid */}
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "24px",
-          }}
+          className="approach-grid"
+          role="list"
+          aria-label="Four phases of development"
         >
           {approaches.map((approach, index) => (
-            <div
+            <article
               key={approach.num}
-              className="retro-card retro-reveal"
+              role="listitem"
+              className={`approach-card ${isVisible ? "animate" : ""}`}
               style={{
-                animationDelay: `${index * 0.1}s`,
-                animationFillMode: "backwards",
+                animationDelay: `${index * 0.12}s`,
               }}
+              tabIndex={0}
             >
-              <div
-                style={{
-                  color: "var(--orange-burnt)",
-                  marginBottom: "8px",
-                }}
-              >
-                [{approach.num}]
+              {/* Number Badge */}
+              <div className="approach-num" aria-hidden="true">
+                {approach.num}
               </div>
-              <h3
-                style={{
-                  color: "var(--gray-light)",
-                  marginBottom: "12px",
-                }}
-              >
+
+              {/* Title */}
+              <h3 className="approach-title">
+                <span style={{ marginRight: "8px" }}>{approach.icon}</span>
                 {approach.title}
               </h3>
-              <p style={{ color: "var(--gray-light)" }}>{approach.description}</p>
-            </div>
+
+              {/* Description */}
+              <p className="approach-desc">{approach.description}</p>
+            </article>
           ))}
         </div>
       </div>
@@ -259,28 +288,30 @@ function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
     <section
       id="projects"
+      aria-label="Portfolio case studies"
       style={{
-        background: "var(--blue-petrolium)",
+        background: "var(--bg-void)",
         padding: "96px 24px",
       }}
     >
       <div className="container-retro">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "64px" }}>
+        <header style={{ textAlign: "center", marginBottom: "64px" }}>
           <span className="retro-badge" style={{ marginBottom: "16px" }}>
             PORTFOLIO
           </span>
           <h2
             style={{
-              color: "var(--orange-burnt)",
+              color: "var(--hyper-purple)",
               marginTop: "24px",
+              textShadow: "0 0 15px rgba(157, 0, 255, 0.4)",
             }}
           >
             {">> CASE STUDIES <<"}
           </h2>
           <p
             style={{
-              color: "var(--gray-light)",
+              color: "var(--foreground-muted)",
               marginTop: "16px",
               maxWidth: "600px",
               margin: "16px auto 0",
@@ -288,10 +319,12 @@ function ProjectsSection({ projects }: ProjectsSectionProps) {
           >
             REAL-WORLD PROJECTS IN ENTERPRISE ARCHITECTURE AND SECURE SYSTEMS.
           </p>
-        </div>
+        </header>
 
         {/* Projects Grid */}
         <div
+          role="list"
+          aria-label="Project list"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
