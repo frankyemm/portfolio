@@ -1,65 +1,349 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { ProjectCard } from "@/components/ui/ProjectCard";
+import type { ProjectFrontmatter } from "@/lib/markdown";
+
+// Typewriter Effect Component
+function TypewriterText({ text }: { text: string }) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+  const indexRef = useRef(0);
+
+  useEffect(() => {
+    // Typewriter character-by-character
+    const typeInterval = setInterval(() => {
+      if (indexRef.current < text.length) {
+        setDisplayedText(text.slice(0, indexRef.current + 1));
+        indexRef.current++;
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, 80); // Mechanical typing speed
+
+    // Cursor blink
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 400);
+
+    return () => {
+      clearInterval(typeInterval);
+      clearInterval(cursorInterval);
+    };
+  }, [text]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <span>
+      {displayedText}
+      <span
+        style={{
+          display: "inline-block",
+          width: "16px",
+          height: "20px",
+          backgroundColor: showCursor ? "var(--gray-light)" : "transparent",
+          marginLeft: "4px",
+          verticalAlign: "middle",
+        }}
+      />
+    </span>
+  );
+}
+
+// Hero Section
+function HeroSection() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleScrollClick = () => {
+    const projectsSection = document.getElementById("projects");
+    if (projectsSection) {
+      projectsSection.scrollIntoView();
+    }
+  };
+
+  return (
+    <section
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        background: "var(--blue-petrolium)",
+        padding: "48px 24px",
+      }}
+    >
+      <div className="container-retro text-center">
+        {/* Badge */}
+        <div
+          className="retro-badge"
+          style={{
+            marginBottom: "32px",
+            opacity: mounted ? 1 : 0,
+            animation: mounted ? "retro-fade-in 0.2s steps(3) forwards" : "none",
+          }}
+        >
+          {"< FULL STACK ENGINEER />"}
+        </div>
+
+        {/* Typewriter Headline */}
+        <h1
+          style={{
+            fontSize: "clamp(12px, 3vw, 20px)",
+            color: "var(--gray-light)",
+            marginBottom: "24px",
+            lineHeight: 1.8,
+            minHeight: "80px",
+          }}
+        >
+          {mounted ? (
+            <TypewriterText text="ARCHITECTING SECURE DIGITAL ECOSYSTEMS" />
+          ) : (
+            "ARCHITECTING SECURE DIGITAL ECOSYSTEMS"
+          )}
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          style={{
+            color: "var(--gray-light)",
+            marginBottom: "48px",
+            maxWidth: "600px",
+            margin: "0 auto 48px",
+            opacity: mounted ? 1 : 0,
+            animation: mounted
+              ? "retro-fade-in 0.3s steps(4) forwards 1.5s"
+              : "none",
+            animationFillMode: "backwards",
+          }}
+        >
+          TRANSFORMING COMPLEX CHALLENGES INTO ELEGANT SOLUTIONS.
+          <br />
+          SECURITY AND PERFORMANCE ARE NON-NEGOTIABLE.
+        </p>
+
+        {/* CTA Button */}
+        <button
+          onClick={handleScrollClick}
+          className="retro-btn"
+          style={{
+            opacity: mounted ? 1 : 0,
+            animation: mounted
+              ? "retro-fade-in 0.3s steps(4) forwards 2s"
+              : "none",
+            animationFillMode: "backwards",
+          }}
+        >
+          {">> VIEW CASE STUDIES <<"}
+        </button>
+
+        {/* Scroll indicator */}
+        <div
+          style={{
+            marginTop: "64px",
+            color: "var(--teal-dark)",
+            opacity: mounted ? 1 : 0,
+            animation: mounted
+              ? "retro-blink 1s steps(1) infinite 2.5s"
+              : "none",
+          }}
+        >
+          ▼ SCROLL DOWN ▼
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Approach Section
+function ApproachSection() {
+  const approaches = [
+    {
+      num: "01",
+      title: "DISCOVERY",
+      description:
+        'IDENTIFY THE CORE PROBLEM. ASK: "IS REAL-TIME SYNC REQUIRED?"',
+    },
+    {
+      num: "02",
+      title: "ARCHITECTURE",
+      description: "MAP DATA FLOW. APPLY SOC AND SRP PRINCIPLES.",
+    },
+    {
+      num: "03",
+      title: "IMPLEMENTATION",
+      description: "BUILD IN SMALL INCREMENTS. TYPESCRIPT + CLEAN CODE.",
+    },
+    {
+      num: "04",
+      title: "VERIFICATION",
+      description: "TEST EDGE CASES. DOCUMENT THE WHY BEHIND DECISIONS.",
+    },
+  ];
+
+  return (
+    <section
+      id="approach"
+      style={{
+        background: "var(--gray-dark)",
+        padding: "96px 24px",
+      }}
+    >
+      <div className="container-retro">
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "64px" }}>
+          <span
+            className="retro-badge retro-badge-warning"
+            style={{ marginBottom: "16px" }}
+          >
+            METHODOLOGY
+          </span>
+          <h2
+            style={{
+              color: "var(--gray-light)",
+              marginTop: "24px",
+            }}
+          >
+            {"// HOW I APPROACH PROBLEMS //"}
+          </h2>
+        </div>
+
+        {/* Cards Grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "24px",
+          }}
+        >
+          {approaches.map((approach, index) => (
+            <div
+              key={approach.num}
+              className="retro-card retro-reveal"
+              style={{
+                animationDelay: `${index * 0.1}s`,
+                animationFillMode: "backwards",
+              }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              <div
+                style={{
+                  color: "var(--orange-burnt)",
+                  marginBottom: "8px",
+                }}
+              >
+                [{approach.num}]
+              </div>
+              <h3
+                style={{
+                  color: "var(--gray-light)",
+                  marginBottom: "12px",
+                }}
+              >
+                {approach.title}
+              </h3>
+              <p style={{ color: "var(--gray-light)" }}>{approach.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Projects Section
+interface ProjectsSectionProps {
+  projects: ProjectFrontmatter[];
+}
+
+function ProjectsSection({ projects }: ProjectsSectionProps) {
+  return (
+    <section
+      id="projects"
+      style={{
+        background: "var(--blue-petrolium)",
+        padding: "96px 24px",
+      }}
+    >
+      <div className="container-retro">
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "64px" }}>
+          <span className="retro-badge" style={{ marginBottom: "16px" }}>
+            PORTFOLIO
+          </span>
+          <h2
+            style={{
+              color: "var(--orange-burnt)",
+              marginTop: "24px",
+            }}
+          >
+            {">> CASE STUDIES <<"}
+          </h2>
+          <p
+            style={{
+              color: "var(--gray-light)",
+              marginTop: "16px",
+              maxWidth: "600px",
+              margin: "16px auto 0",
+            }}
+          >
+            REAL-WORLD PROJECTS IN ENTERPRISE ARCHITECTURE AND SECURE SYSTEMS.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Projects Grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "24px",
+          }}
+        >
+          {projects.map((project, index) => (
+            <ProjectCard key={project.slug} project={project} index={index} />
+          ))}
         </div>
-      </main>
-    </div>
+      </div>
+    </section>
+  );
+}
+
+// Main Page
+export default function HomePage() {
+  const projects: ProjectFrontmatter[] = [
+    {
+      title: "REAL-TIME INVENTORY SYSTEM",
+      slug: "restaurant-inventory",
+      excerpt:
+        "MISSION-CRITICAL TRACKING ACROSS MULTIPLE LOCATIONS. ZERO RECONCILIATION ERRORS.",
+      techStack: ["NEXT.JS", "REACT", "SUPABASE", "POSTGRESQL"],
+      confidential: true,
+      category: "ENTERPRISE",
+    },
+    {
+      title: "WHATSAPP FINANCIAL LEDGER",
+      slug: "gac-confidential",
+      excerpt:
+        "100% WHATSAPP-NATIVE ECOSYSTEM FOR COMMUNITY SAVINGS GROUPS.",
+      techStack: ["WHATSAPP API", "POWER AUTOMATE", "DATAVERSE"],
+      confidential: true,
+      category: "FINTECH",
+    },
+    {
+      title: "SEGUROENVIO LOGISTICS",
+      slug: "seguroenvio",
+      excerpt:
+        "HIGH-PERFORMANCE LOGISTICS WITH PENALTY LOOP ACCOUNTABILITY.",
+      techStack: ["NEXT.JS 16", "REACT 19", "PRISMA", "ZOD"],
+      confidential: false,
+      category: "LOGISTICS",
+    },
+  ];
+
+  return (
+    <>
+      <HeroSection />
+      <ApproachSection />
+      <ProjectsSection projects={projects} />
+    </>
   );
 }

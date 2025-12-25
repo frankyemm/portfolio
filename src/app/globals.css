@@ -1,26 +1,600 @@
 @import "tailwindcss";
 
+/* ===============================
+   8-BIT RETRO DESIGN SYSTEM
+   NES/C64/GameBoy Era Aesthetic
+   =============================== */
+
+/* STRICT 6-COLOR PALETTE - NO OTHER COLORS ALLOWED */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary Colors */
+  --blue-petrolium: #163E64;
+  --orange-burnt: #C04F15;
+  --teal-dark: #006666;
+
+  /* Support Colors */
+  --gray-dark: #2E2E2E;
+  --gray-light: #F2F2F2;
+  --white: #FFFFFF;
+
+  /* Semantic Mappings */
+  --background: var(--blue-petrolium);
+  --background-secondary: var(--gray-dark);
+  --background-tertiary: var(--teal-dark);
+  --foreground: var(--gray-light);
+  --foreground-muted: var(--gray-light);
+  --accent-primary: var(--orange-burnt);
+  --accent-secondary: var(--teal-dark);
+
+  /* Typography */
+  --font-pixel: "Press Start 2P", monospace;
+
+  /* Grid unit (8px base for pixel-perfect alignment) */
+  --grid: 8px;
 }
 
+/* Tailwind v4 Theme Extension */
 @theme inline {
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--background-tertiary);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --font-sans: var(--font-pixel);
+  --font-mono: var(--font-pixel);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ===============================
+   ANTI-ALIASING DISABLED
+   Pixel-Perfect Rendering
+   =============================== */
+
+* {
+  /* Disable all font smoothing */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-smooth: never;
+
+  /* Snap to pixel grid */
+  transform: translateZ(0);
+}
+
+html {
+  /* Disable smooth scrolling - instant jumps */
+  scroll-behavior: auto !important;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 2;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+img,
+svg,
+canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+::selection {
+  background: var(--orange-burnt);
+  color: var(--white);
+}
+
+/* ===============================
+   SCANLINE OVERLAY EFFECT
+   CRT Monitor Simulation
+   =============================== */
+
+.scanlines::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(0deg,
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px);
+}
+
+/* Optional: Screen flicker effect */
+@keyframes flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.98;
+  }
+}
+
+.crt-flicker {
+  animation: flicker 0.1s steps(2) infinite;
+}
+
+/* ===============================
+   TYPOGRAPHY - PIXEL FONTS ONLY
+   =============================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 16px;
+}
+
+h2 {
+  font-size: 14px;
+}
+
+h3 {
+  font-size: 12px;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 10px;
+}
+
+p,
+span,
+a,
+li {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 2;
+}
+
+/* ===============================
+   8-BIT BUTTONS
+   Hard Shadows, Instant States
+   =============================== */
+
+.retro-btn {
+  display: inline-block;
+  padding: 16px 24px;
+  background: var(--orange-burnt);
+  color: var(--white);
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  text-transform: uppercase;
+  border: 4px solid var(--gray-dark);
+  box-shadow: 4px 4px 0px var(--gray-dark);
+  cursor: pointer;
+  transition: none !important;
+  image-rendering: pixelated;
+}
+
+.retro-btn:hover {
+  background: var(--teal-dark);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--gray-dark);
+}
+
+.retro-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+/* ===============================
+   8-BIT CARDS
+   Solid Borders, No Blur
+   =============================== */
+
+.retro-card {
+  background: var(--gray-dark);
+  border: 4px solid var(--orange-burnt);
+  box-shadow: 8px 8px 0px var(--blue-petrolium);
+  padding: 24px;
+  transition: none !important;
+}
+
+.retro-card:hover {
+  background: var(--teal-dark);
+  border-color: var(--gray-light);
+}
+
+.retro-card-light {
+  background: var(--gray-light);
+  color: var(--gray-dark);
+  border: 4px solid var(--blue-petrolium);
+  box-shadow: 8px 8px 0px var(--gray-dark);
+  padding: 24px;
+  transition: none !important;
+}
+
+/* ===============================
+   STEPPED ANIMATIONS (15-24 FPS)
+   Frame-Based Movement
+   =============================== */
+
+@keyframes retro-blink {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes retro-slide-in {
+  0% {
+    transform: translateY(32px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes retro-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Typewriter cursor blink */
+.cursor-blink {
+  animation: retro-blink 0.8s steps(1) infinite;
+}
+
+/* Stepped reveal animation */
+.retro-reveal {
+  animation: retro-slide-in 0.3s steps(4) forwards;
+}
+
+.retro-fade {
+  animation: retro-fade-in 0.2s steps(3) forwards;
+}
+
+/* Staggered delays for children */
+.retro-stagger>*:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.retro-stagger>*:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.retro-stagger>*:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.retro-stagger>*:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.retro-stagger>*:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.retro-stagger>*:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+/* ===============================
+   NAVIGATION - 8-BIT STYLE
+   =============================== */
+
+.retro-nav {
+  background: var(--gray-dark);
+  border-bottom: 4px solid var(--orange-burnt);
+  padding: 16px;
+}
+
+.retro-nav a {
+  color: var(--gray-light);
+  text-decoration: none;
+  padding: 8px 16px;
+  transition: none !important;
+}
+
+.retro-nav a:hover {
+  background: var(--orange-burnt);
+  color: var(--white);
+}
+
+/* ===============================
+   CONTAINER UTILITIES
+   =============================== */
+
+.container-retro {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Dark section */
+.section-dark {
+  background: var(--blue-petrolium);
+  color: var(--gray-light);
+}
+
+/* Light section for reading */
+.section-light {
+  background: var(--gray-light);
+  color: var(--gray-dark);
+}
+
+/* ===============================
+   PIXEL BORDERS & DIVIDERS
+   =============================== */
+
+.pixel-border {
+  border: 4px solid var(--orange-burnt);
+}
+
+.pixel-border-dark {
+  border: 4px solid var(--gray-dark);
+}
+
+.pixel-divider {
+  height: 4px;
+  background: var(--orange-burnt);
+  border: none;
+  margin: 32px 0;
+}
+
+/* ===============================
+   BADGE STYLES
+   =============================== */
+
+.retro-badge {
+  display: inline-block;
+  padding: 8px 12px;
+  background: var(--teal-dark);
+  color: var(--white);
+  font-size: 8px;
+  text-transform: uppercase;
+  border: 2px solid var(--gray-light);
+  box-shadow: 2px 2px 0px var(--gray-dark);
+}
+
+.retro-badge-warning {
+  background: var(--orange-burnt);
+}
+
+/* ===============================
+   TECH STACK TAGS
+   =============================== */
+
+.retro-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  background: var(--gray-dark);
+  color: var(--gray-light);
+  font-size: 8px;
+  text-transform: uppercase;
+  border: 2px solid var(--teal-dark);
+  margin: 4px;
+  transition: none !important;
+}
+
+.retro-tag:hover {
+  background: var(--teal-dark);
+  border-color: var(--orange-burnt);
+}
+
+/* ===============================
+   MARKDOWN CONTENT STYLING
+   =============================== */
+
+.prose-retro {
+  color: var(--gray-light);
+  font-size: 10px;
+  line-height: 2;
+}
+
+.prose-retro h1 {
+  font-size: 16px;
+  margin-bottom: 24px;
+  color: var(--gray-light);
+  text-transform: uppercase;
+}
+
+.prose-retro h2 {
+  font-size: 14px;
+  margin-top: 48px;
+  margin-bottom: 16px;
+  color: var(--orange-burnt);
+  padding-bottom: 8px;
+  border-bottom: 4px solid var(--teal-dark);
+  text-transform: uppercase;
+}
+
+.prose-retro h3 {
+  font-size: 12px;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  color: var(--teal-dark);
+  text-transform: uppercase;
+}
+
+.prose-retro p {
+  margin-bottom: 24px;
+}
+
+.prose-retro strong {
+  color: var(--orange-burnt);
+}
+
+.prose-retro a {
+  color: var(--orange-burnt);
+  text-decoration: underline;
+}
+
+.prose-retro a:hover {
+  background: var(--orange-burnt);
+  color: var(--white);
+}
+
+.prose-retro ul,
+.prose-retro ol {
+  margin-bottom: 24px;
+  padding-left: 24px;
+}
+
+.prose-retro li {
+  margin-bottom: 8px;
+}
+
+.prose-retro li::marker {
+  color: var(--orange-burnt);
+}
+
+.prose-retro blockquote {
+  background: var(--gray-dark);
+  border-left: 4px solid var(--orange-burnt);
+  padding: 16px;
+  margin: 24px 0;
+}
+
+.prose-retro pre {
+  background: var(--gray-dark) !important;
+  border: 4px solid var(--teal-dark);
+  padding: 16px;
+  overflow-x: auto;
+  margin: 24px 0;
+  box-shadow: 4px 4px 0px var(--blue-petrolium);
+}
+
+.prose-retro code {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+}
+
+.prose-retro :not(pre)>code {
+  background: var(--gray-dark);
+  padding: 2px 6px;
+  color: var(--orange-burnt);
+  border: 2px solid var(--teal-dark);
+}
+
+.prose-retro hr {
+  border: none;
+  height: 4px;
+  background: var(--teal-dark);
+  margin: 48px 0;
+}
+
+/* ===============================
+   DISABLE ALL MODERN EFFECTS
+   =============================== */
+
+/* Kill all transitions globally */
+*,
+*::before,
+*::after {
+  transition: none !important;
+  animation-timing-function: steps(4) !important;
+}
+
+/* Exception for intentional retro animations */
+.retro-animate {
+  animation-timing-function: steps(4) !important;
+}
+
+/* Disable backdrop blur */
+.glass,
+.glass-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ===============================
+   SCROLLBAR - 8-BIT STYLE
+   =============================== */
+
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-dark);
+  border-left: 4px solid var(--blue-petrolium);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--orange-burnt);
+  border: 2px solid var(--gray-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--teal-dark);
+}
+
+/* ===============================
+   RESPONSIVE (GRID-ALIGNED)
+   =============================== */
+
+.container-retro {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 12px;
+  }
+
+  h2 {
+    font-size: 10px;
+  }
+
+  h3,
+  p,
+  span,
+  a,
+  li {
+    font-size: 8px;
+  }
+
+  .retro-btn {
+    padding: 12px 16px;
+    font-size: 8px;
+  }
+
+  .retro-card {
+    padding: 16px;
+  }
 }
