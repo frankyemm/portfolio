@@ -217,11 +217,31 @@ function ApproachSection() {
     setStep(4); // La nave se va
   };
 
-  const approaches = [
-    { num: "01", title: "DISCOVERY", description: 'IDENTIFY THE CORE PROBLEM. ASK: "IS REAL-TIME SYNC REQUIRED?"', icon: "🔍" },
-    { num: "02", title: "ARCHITECTURE", description: "MAP DATA FLOW. APPLY SOC AND SRP PRINCIPLES.", icon: "🏗️" },
-    { num: "03", title: "IMPLEMENTATION", description: "BUILD IN SMALL INCREMENTS. TYPESCRIPT + CLEAN CODE.", icon: "⚡" },
-    { num: "04", title: "VERIFICATION", description: "TEST EDGE CASES. DOCUMENT THE WHY BEHIND DECISIONS.", icon: "✓" },
+const approaches = [
+    { 
+      num: "01", 
+      title: "DATA DISCOVERY", 
+      description: 'ANALYZING THE "DATA WHY". IDENTIFYING KEY METRICS AND SOURCE INTEGRITY.', 
+      icon: "🔍" 
+    },
+    { 
+      num: "02", 
+      title: "ARCHITECTURE", 
+      description: "MAPPING ETL PIPELINES. DESIGNING SECURE, SCALABLE DATA FLOWS.", 
+      icon: "🏗️" 
+    },
+    { 
+      num: "03", 
+      title: "IMPLEMENTATION", 
+      description: "BUILDING CLEAN CODE & AI MODELS. FROM TYPESCRIPT TO DEEP LEARNING.", 
+      icon: "⚡" 
+    },
+    { 
+      num: "04", 
+      title: "KPI MONITORING", 
+      description: "VERIFYING SUCCESS VIA POWER BI DASHBOARDS AND PERFORMANCE AUDITS.", 
+      icon: "📊" 
+    },
   ];
 
   return (
