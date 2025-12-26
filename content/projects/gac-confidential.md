@@ -13,7 +13,7 @@ category: "Fintech"
 
 ---
 
-## Case Study 1: Community-Based Financial Governance & Digital Ledger
+## Case Study: Community-Based Financial Governance & Digital Ledger
 **Tech Stack:** WhatsApp Business API, WhatsApp Flows, Power Automate, Power Apps (Dataverse).
 
 ### Project Overview
