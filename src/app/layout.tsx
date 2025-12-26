@@ -12,7 +12,7 @@ const pixelFont = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "FRANKY | Full Stack Developer - Secure Digital Ecosystems",
+  title: "Portfolio - Frankyemm",
   description:
     "Full Stack Developer specializing in Next.js, React, TypeScript, and enterprise architecture. Building secure, high-performance digital solutions.",
   keywords: [
@@ -42,18 +42,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://frankyemm.dev",
-    siteName: "Franky | Developer Portfolio",
-    title: "FRANKY | Full Stack Developer",
+    url: "https://www.frankyemm.dev",
+    siteName: "Portfolio - Frankyemm",
+    title: "Portfolio - Frankyemm",
     description:
       "Architecting secure digital ecosystems. Expertise in Next.js, React, and TypeScript.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "FRANKY | Full Stack Developer",
-    description:
-      "Architecting secure digital ecosystems. Expertise in Next.js, React, and TypeScript.",
-    creator: "@frankyemm",
   },
 };
 
