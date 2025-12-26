@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { ProjectCard } from "../components/ui/ProjectCard";
+import { useInViewAnimation } from "../hooks/useInViewAnimation";
 import type { ProjectFrontmatter } from "../lib/markdown";
 
-// Typewriter Effect Component
+// Typewriter Text Component Corregido
 function TypewriterText({ text }: { text: string }) {
   const [displayedText, setDisplayedText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
@@ -31,18 +32,19 @@ function TypewriterText({ text }: { text: string }) {
   }, [text]);
 
   return (
-    <span>
+    /* Forzamos al span a ser un bloque inline y heredar el tamaño del h1 */
+    <span style={{ fontSize: "inherit", fontFamily: "inherit", lineHeight: "inherit" }}>
       {displayedText}
       <span
         aria-hidden="true"
         style={{
           display: "inline-block",
-          width: "16px",
-          height: "20px",
+          width: "3px", // Un poco más grueso para que se note en el h1 gigante
+          height: "5em",
           backgroundColor: showCursor ? "var(--neon-cyan)" : "transparent",
-          marginLeft: "4px",
-          verticalAlign: "middle",
-          boxShadow: showCursor ? "0 0 10px var(--neon-cyan)" : "none",
+          marginLeft: "8px",
+          verticalAlign: "baseline", // Corregido de "center" a "baseline"
+          boxShadow: showCursor ? "0 0 15px var(--neon-cyan)" : "none",
         }}
       />
     </span>
@@ -60,7 +62,7 @@ function HeroSection() {
   const handleScrollClick = () => {
     const projectsSection = document.getElementById("projects");
     if (projectsSection) {
-      projectsSection.scrollIntoView();
+      projectsSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -71,31 +73,45 @@ function HeroSection() {
       className="min-h-screen flex items-center justify-center"
       style={{
         background: "var(--bg-void)",
-        padding: "48px 24px",
+        padding: "80px 24px", // Aumentado el padding vertical
       }}
     >
-      <div className="container-retro text-center">
-        {/* Badge */}
+      {/* Aumentamos el max-width del contenedor para que el texto tenga espacio de crecer */}
+      <div className="container-retro text-center" style={{ maxWidth: '1200px', width: '100%' }}>
+
+        {/* Badge - Escalado */}
         <div
           className="retro-badge"
           style={{
-            marginBottom: "32px",
+            display: "inline-block",
+            padding: "8px 20px",
+            fontSize: "1.1rem",
+            marginBottom: "40px", // Más espacio
             opacity: mounted ? 1 : 0,
-            animation: mounted ? "retro-fade-in 0.2s steps(3) forwards" : "none",
+            animationName: mounted ? "retro-fade-in" : "none",
+            animationDuration: "0.2s",
+            animationTimingFunction: "steps(3)",
+            animationFillMode: "forwards",
+            border: "2px solid var(--hyper-purple)",
           }}
         >
           {"< FULL STACK ENGINEER />"}
         </div>
 
-        {/* Typewriter Headline */}
+        {/* Typewriter Headline - Proporcional al subtítulo (2.5x) */}
         <h1
           style={{
-            fontSize: "clamp(12px, 3vw, 20px)",
+            // 36px en móvil, 8vw para que crezca rápido, 90px máximo.
+            fontSize: "clamp(24px, 8vw, 48px)", 
             color: "var(--neon-cyan)",
-            marginBottom: "24px",
-            lineHeight: 1.8,
-            minHeight: "80px",
-            textShadow: "0 0 20px rgba(0, 243, 255, 0.5)",
+            marginBottom: "32px",
+            lineHeight: "1", // Títulos gigantes necesitan line-height corto
+            fontWeight: "bold",
+            minHeight: "1.2em", // Reserva el espacio basado en el tamaño de la letra
+            textShadow: "0 0 30px rgba(0, 243, 255, 0.6)",
+            letterSpacing: "-1px", // Estilo gamer/condensado
+            display: "block",
+            width: "100%",
           }}
         >
           {mounted ? (
@@ -105,38 +121,44 @@ function HeroSection() {
           )}
         </h1>
 
-        {/* Subtitle */}
+        {/* Subtitle - Más ancho y letra más grande */}
         <p
           style={{
             color: "var(--foreground-muted)",
-            marginBottom: "48px",
-            maxWidth: "600px",
-            margin: "0 auto 48px",
+            fontSize: "clamp(16px, 1.5vw, 20px)", // Letra más grande
+            maxWidth: "850px", // Aumentado de 600px
+            margin: "0 auto 56px",
+            lineHeight: 1.6,
             opacity: mounted ? 1 : 0,
-            animation: mounted
-              ? "retro-fade-in 0.3s steps(4) forwards 1.5s"
-              : "none",
-            animationFillMode: "backwards",
+            animationName: mounted ? "retro-fade-in" : "none",
+            animationDuration: "0.3s",
+            animationTimingFunction: "steps(4)",
+            animationDelay: "1.5s",
+            animationFillMode: "forwards",
           }}
         >
           TRANSFORMING COMPLEX CHALLENGES INTO ELEGANT SOLUTIONS.
           <br />
-          <span style={{ color: "var(--hyper-purple)" }}>
+          <span style={{ color: "var(--hyper-purple)", fontWeight: 'bold' }}>
             SECURITY AND PERFORMANCE ARE NON-NEGOTIABLE.
           </span>
         </p>
 
-        {/* CTA Button */}
+        {/* CTA Button - Escalado */}
         <button
           onClick={handleScrollClick}
           className="retro-btn"
           aria-label="View case studies"
           style={{
+            padding: "20px 40px", // Botón mucho más grande
+            fontSize: "1.2rem",
             opacity: mounted ? 1 : 0,
-            animation: mounted
-              ? "retro-fade-in 0.3s steps(4) forwards 2s"
-              : "none",
-            animationFillMode: "backwards",
+            animationName: mounted ? "retro-fade-in" : "none",
+            animationDuration: "0.3s",
+            animationTimingFunction: "steps(4)",
+            animationDelay: "2s",
+            animationFillMode: "forwards",
+            cursor: "pointer"
           }}
         >
           {">> VIEW CASE STUDIES <<"}
@@ -146,12 +168,15 @@ function HeroSection() {
         <div
           aria-hidden="true"
           style={{
-            marginTop: "64px",
+            marginTop: "80px",
+            fontSize: "1.1rem",
             color: "var(--hyper-purple)",
             opacity: mounted ? 1 : 0,
-            animation: mounted
-              ? "retro-blink 1s steps(1) infinite 2.5s"
-              : "none",
+            animationName: mounted ? "retro-blink" : "none",
+            animationDuration: "1s",
+            animationTimingFunction: "steps(1)",
+            animationIterationCount: "infinite",
+            animationDelay: "2.5s",
           }}
         >
           ▼ SCROLL DOWN ▼
@@ -161,116 +186,73 @@ function HeroSection() {
   );
 }
 
-// Approach Section with 2x2 Grid and 8-bit Animations
+// Approach Section with Sequential Spaceship Animation
 function ApproachSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const { ref, isVisible } = useInViewAnimation<HTMLElement>(0.2);
+  const [step, setStep] = useState(-1); 
+  const [isExploding, setIsExploding] = useState(false);
+  
+  // NUEVO: Controla qué cuadros ya terminaron su explosión
+  const [revealedCount, setRevealedCount] = useState(-1); 
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (isVisible && step === -1) {
+      startSequence();
     }
+  }, [isVisible]);
 
-    return () => observer.disconnect();
-  }, []);
+  const startSequence = async () => {
+    for (let i = 0; i < 4; i++) {
+      setStep(i); // 1. La nave viaja a la posición i
+      await new Promise(r => setTimeout(r, 700)); // Tiempo de viaje (ajustar si la nave va lento)
+      
+      setIsExploding(true); // 2. ¡BOOM!
+      await new Promise(r => setTimeout(r, 400)); // 3. Esperamos a que la animación de explosión casi termine
+      
+      setIsExploding(false); // 4. Quitamos la explosión
+      setRevealedCount(i);   // 5. JUSTO AQUÍ: El cuadro aparece ahora que la explosión se fue
+      
+      await new Promise(r => setTimeout(r, 200)); // Pequeña pausa antes de ir al siguiente
+    }
+    setStep(4); // La nave se va
+  };
 
   const approaches = [
-    {
-      num: "01",
-      title: "DISCOVERY",
-      description: 'IDENTIFY THE CORE PROBLEM. ASK: "IS REAL-TIME SYNC REQUIRED?"',
-      icon: "🔍",
-    },
-    {
-      num: "02",
-      title: "ARCHITECTURE",
-      description: "MAP DATA FLOW. APPLY SOC AND SRP PRINCIPLES.",
-      icon: "🏗️",
-    },
-    {
-      num: "03",
-      title: "IMPLEMENTATION",
-      description: "BUILD IN SMALL INCREMENTS. TYPESCRIPT + CLEAN CODE.",
-      icon: "⚡",
-    },
-    {
-      num: "04",
-      title: "VERIFICATION",
-      description: "TEST EDGE CASES. DOCUMENT THE WHY BEHIND DECISIONS.",
-      icon: "✓",
-    },
+    { num: "01", title: "DISCOVERY", description: 'IDENTIFY THE CORE PROBLEM. ASK: "IS REAL-TIME SYNC REQUIRED?"', icon: "🔍" },
+    { num: "02", title: "ARCHITECTURE", description: "MAP DATA FLOW. APPLY SOC AND SRP PRINCIPLES.", icon: "🏗️" },
+    { num: "03", title: "IMPLEMENTATION", description: "BUILD IN SMALL INCREMENTS. TYPESCRIPT + CLEAN CODE.", icon: "⚡" },
+    { num: "04", title: "VERIFICATION", description: "TEST EDGE CASES. DOCUMENT THE WHY BEHIND DECISIONS.", icon: "✓" },
   ];
 
   return (
-    <section
-      ref={sectionRef}
-      id="approach"
-      aria-label="Development methodology"
-      style={{
-        background: "var(--card-carbon)",
-        padding: "96px 24px",
-      }}
-    >
+    <section ref={ref} id="approach" style={{ background: "var(--card-carbon)", padding: "96px 24px", overflow: 'hidden' }}>
       <div className="container-retro">
-        {/* Header */}
         <header style={{ textAlign: "center", marginBottom: "64px" }}>
-          <span
-            className="retro-badge retro-badge-warning"
-            style={{ marginBottom: "16px" }}
-          >
+           <span className="retro-badge retro-badge-warning" style={{ marginBottom: "16px" }}>
             METHODOLOGY
           </span>
-          <h2
-            style={{
-              color: "var(--neon-cyan)",
-              marginTop: "24px",
-              textShadow: "0 0 15px rgba(0, 243, 255, 0.4)",
-            }}
-          >
+          <h2 style={{ color: "var(--neon-cyan)", marginTop: "24px", textShadow: "0 0 15px rgba(0, 243, 255, 0.4)" }}>
             {"// HOW I APPROACH PROBLEMS //"}
           </h2>
         </header>
 
-        {/* 2x2 Grid */}
-        <div
-          className="approach-grid"
-          role="list"
-          aria-label="Four phases of development"
-        >
-          {approaches.map((approach, index) => (
+        <div className="approach-grid">
+          {/* NAVE ESPACIAL */}
+          <div className={`retro-spaceship ship-pos-${step} ${step >= 0 && step < 4 ? 'active' : ''}`}>
+             <img src="/space-ship.svg" style={{ width: '40px', filter: 'hue-rotate(90deg) brightness(1.5)' }} alt="ship" />
+          </div>
+
+          {approaches.map((app, index) => (
             <article
-              key={approach.num}
-              role="listitem"
-              className={`approach-card ${isVisible ? "animate" : ""}`}
-              style={{
-                animationDelay: `${index * 0.12}s`,
-              }}
-              tabIndex={0}
-            >
-              {/* Number Badge */}
-              <div className="approach-num" aria-hidden="true">
-                {approach.num}
-              </div>
+              key={index}
+              className={`approach-card ${revealedCount >= index ? "revealed" : ""}`}
+        >
+          {/* El efecto de explosión sigue guiándose por 'step' para saber dónde ocurrir */}
+          {step === index && isExploding && <div className="pixel-explosion" />}
 
-              {/* Title */}
-              <h3 className="approach-title">
-                <span style={{ marginRight: "8px" }}>{approach.icon}</span>
-                {approach.title}
-              </h3>
-
-              {/* Description */}
-              <p className="approach-desc">{approach.description}</p>
+          <div className="approach-num">{app.num}</div>
+          <h3 className="approach-title">{app.icon} {app.title}</h3>
+          <p className="approach-desc">{app.description}</p>
             </article>
           ))}
         </div>
@@ -279,14 +261,17 @@ function ApproachSection() {
   );
 }
 
-// Projects Section
+// Projects Section (using hook)
 interface ProjectsSectionProps {
   projects: ProjectFrontmatter[];
 }
 
 function ProjectsSection({ projects }: ProjectsSectionProps) {
+  const { ref, isVisible } = useInViewAnimation<HTMLElement>(0.2);
+
   return (
     <section
+      ref={ref}
       id="projects"
       aria-label="Portfolio case studies"
       style={{
@@ -332,7 +317,12 @@ function ProjectsSection({ projects }: ProjectsSectionProps) {
           }}
         >
           {projects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} />
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              index={index}
+              isVisible={isVisible}
+            />
           ))}
         </div>
       </div>

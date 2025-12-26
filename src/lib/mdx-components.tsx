@@ -3,64 +3,78 @@
 import { useEffect, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import mermaid from "mermaid";
-
-// Initialize mermaid with 8-bit dark theme
+import { useId } from "react";
+// Initialize mermaid with Gamer/8-bit theme
 mermaid.initialize({
     startOnLoad: false,
     theme: "dark",
     themeVariables: {
-        primaryColor: "#006666",
-        primaryTextColor: "#F2F2F2",
-        primaryBorderColor: "#C04F15",
-        lineColor: "#F2F2F2",
-        secondaryColor: "#163E64",
-        tertiaryColor: "#2E2E2E",
-        background: "#2E2E2E",
-        mainBkg: "#2E2E2E",
-        nodeBorder: "#C04F15",
-        clusterBkg: "#163E64",
-        titleColor: "#F2F2F2",
-        edgeLabelBackground: "#2E2E2E",
-        fontFamily: "Press Start 2P, monospace",
+        fontFamily: "var(--font-pixel)",
+        primaryColor: "#00F3FF",        // Neon Cyan
+        primaryTextColor: "#FFFFFF",
+        primaryBorderColor: "#9D00FF",  // Hyper Purple
+        lineColor: "#00F3FF",
+        secondaryColor: "#15191E",
+        tertiaryColor: "#0B0E11",
+        mainBkg: "#15191E",
+        nodeBorder: "#00F3FF",
+        clusterBkg: "#0B0E11",
+        titleColor: "#00F3FF",
+        edgeLabelBackground: "#15191E",
         fontSize: "10px",
     },
     flowchart: {
-        curve: "linear", // Sharp edges, no curves
+        curve: "linear",
         padding: 20,
     },
 });
 
 function MermaidDiagram({ code }: { code: string }) {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const uniqueId = useId().replace(/:/g, "");
     const [svg, setSvg] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const renderDiagram = async () => {
-            if (!containerRef.current) return;
+        let isMounted = true;
 
+        const renderDiagram = async () => {
             try {
-                const id = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
-                const { svg } = await mermaid.render(id, code);
-                setSvg(svg);
-                setError(null);
+                // CRITICAL: Wait for fonts to be ready so Mermaid can calculate dimensions correctly
+                if (typeof document !== "undefined" && "fonts" in document) {
+                    await (document as any).fonts.ready;
+                }
+
+                const { svg: renderedSvg } = await mermaid.render(`mermaid-${uniqueId}`, code);
+
+                if (isMounted) {
+                    setSvg(renderedSvg);
+                    setError(null);
+                }
             } catch (err) {
                 console.error("Mermaid rendering error:", err);
-                setError("ERROR: FAILED TO RENDER DIAGRAM");
+                if (isMounted) {
+                    setError("ERROR: FAILED TO RENDER DIAGRAM");
+                }
             }
         };
 
         renderDiagram();
-    }, [code]);
+
+        return () => {
+            isMounted = false;
+        };
+    }, [code, uniqueId]);
 
     if (error) {
         return (
             <div
                 style={{
                     padding: "16px",
-                    background: "var(--gray-dark)",
-                    border: "4px solid var(--orange-burnt)",
-                    color: "var(--orange-burnt)",
+                    background: "var(--bg-void)",
+                    border: "4px solid var(--neon-pink)",
+                    color: "var(--neon-pink)",
+                    fontFamily: "var(--font-pixel)",
+                    fontSize: "8px",
                 }}
             >
                 {error}
@@ -70,14 +84,15 @@ function MermaidDiagram({ code }: { code: string }) {
 
     return (
         <div
-            ref={containerRef}
             style={{
                 margin: "32px 0",
                 padding: "24px",
-                background: "var(--gray-dark)",
-                border: "4px solid var(--teal-dark)",
-                boxShadow: "8px 8px 0px var(--blue-petrolium)",
+                background: "var(--card-carbon)",
+                border: "4px solid var(--neon-cyan)",
+                boxShadow: "8px 8px 0px var(--hyper-purple)",
                 overflowX: "auto",
+                display: "flex",
+                justifyContent: "center",
             }}
             dangerouslySetInnerHTML={{ __html: svg }}
         />

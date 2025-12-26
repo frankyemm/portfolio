@@ -62,7 +62,6 @@
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
   font-smooth: never;
-  transform: translateZ(0);
 }
 
 html {
@@ -282,12 +281,14 @@ h5,
 h6 {
   font-family: var(--font-pixel);
   font-weight: 400;
-  line-height: 1.8;
+  /* Reducimos el interlineado: 1.8 es demasiado para títulos grandes */
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
 h1 {
-  font-size: 16px;
+  /* Tamaño base más razonable para un h1 */
+  font-size: 2.5rem;
 }
 
 h2 {
@@ -397,6 +398,54 @@ li {
 }
 
 /* ===============================
+   PROJECT CARDS - ANIMATED
+   =============================== */
+
+.project-card {
+  background: var(--card-carbon);
+  border: 4px solid var(--neon-cyan);
+  box-shadow:
+    6px 6px 0px var(--hyper-purple),
+    0 0 10px rgba(0, 243, 255, 0.15);
+  padding: 24px;
+  position: relative;
+  opacity: 0;
+  cursor: pointer;
+  height: 100%;
+}
+
+.project-card.animate {
+  animation: card-appear 0.4s steps(6) forwards;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  height: 8px;
+  background: var(--neon-cyan);
+}
+
+.project-card:hover {
+  border-color: var(--hyper-purple);
+  box-shadow:
+    10px 10px 0px var(--neon-cyan),
+    0 0 25px rgba(157, 0, 255, 0.3);
+  transform: translate(-4px, -4px);
+}
+
+.project-card:hover::before {
+  background: var(--hyper-purple);
+}
+
+.project-card:focus-within {
+  outline: 4px solid var(--hyper-purple);
+  outline-offset: 4px;
+}
+
+/* ===============================
    APPROACH CARDS - 2x2 GRID
    =============================== */
 
@@ -433,24 +482,135 @@ li {
   text-align: center;
 }
 
-.approach-card.animate {
-  animation: card-appear 0.4s steps(6) forwards;
+/* =========================================
+   MODO GAMER: NAVE Y EXPLOSIÓN SEQUENCIAL
+   ========================================= */
+
+.approach-grid {
+  position: relative;
+  /* Contenedor para la nave */
 }
 
-.approach-card:nth-child(1).animate {
-  animation-delay: 0s;
+/* La nave espacial */
+.retro-spaceship {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  z-index: 50;
+  image-rendering: pixelated;
+  pointer-events: none;
+  transition: all 0.6s steps(10);
+  /* Movimiento tipo 8-bit */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
 }
 
-.approach-card:nth-child(2).animate {
-  animation-delay: 0.12s;
+.retro-spaceship.active {
+  opacity: 1;
 }
 
-.approach-card:nth-child(3).animate {
-  animation-delay: 0.24s;
+/* Posiciones relativas a la cuadrícula 2x2 */
+.ship-pos-0 {
+  top: 25%;
+  left: 25%;
+  transform: translate(-50%, -50%);
 }
 
-.approach-card:nth-child(4).animate {
-  animation-delay: 0.36s;
+.ship-pos-1 {
+  top: 25%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+}
+
+.ship-pos-2 {
+  top: 75%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.ship-pos-3 {
+  top: 75%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+}
+
+/* La explosión 8-bit */
+/* Contenedor de la explosión: centrado en la tarjeta */
+.pixel-explosion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* El bloque que crece y cambia de color */
+.pixel-explosion::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--white);
+  /* 0.4s coincide con el tiempo que pusimos en el JS */
+  animation: explosion-8bit 0.4s steps(4) forwards;
+}
+
+@keyframes explosion-8bit {
+  0% {
+    transform: scale(1);
+    background: var(--white);
+    box-shadow: 0 0 0 0 var(--white);
+  }
+
+  33% {
+    transform: scale(4);
+    background: var(--neon-cyan);
+    box-shadow: 0 0 20px 5px var(--neon-cyan);
+  }
+
+  66% {
+    transform: scale(8);
+    background: var(--hyper-purple);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(15);
+    opacity: 0;
+    background: transparent;
+  }
+}
+
+/* Ajuste de las tarjetas para el reveal */
+.approach-card {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.approach-card.revealed {
+  opacity: 1;
+  visibility: visible;
+  /* Aparece en 2 pasos de golpe para estilo retro */
+  animation: appear-instant 0.1s steps(2) forwards;
+}
+
+@keyframes appear-instant {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .approach-card::before {

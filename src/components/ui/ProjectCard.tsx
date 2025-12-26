@@ -6,32 +6,18 @@ import type { ProjectFrontmatter } from "../../lib/markdown";
 interface ProjectCardProps {
     project: ProjectFrontmatter;
     index: number;
+    isVisible: boolean;
 }
 
-export function ProjectCard({ project, index }: ProjectCardProps) {
+export function ProjectCard({ project, index, isVisible }: ProjectCardProps) {
     return (
         <Link href={`/projects/${project.slug}`} style={{ textDecoration: "none" }}>
             <article
-                className="retro-card retro-reveal"
+                role="listitem"
+                tabIndex={0}
+                className={`project-card ${isVisible ? "animate" : ""}`}
                 style={{
-                    animationDelay: `${index * 0.15}s`,
-                    animationFillMode: "backwards",
-                    cursor: "pointer",
-                    height: "100%",
-                }}
-                onMouseEnter={(e) => {
-                    const el = e.currentTarget;
-                    el.style.background = "var(--teal-dark)";
-                    el.style.borderColor = "var(--gray-light)";
-                    el.style.transform = "translate(-4px, -4px)";
-                    el.style.boxShadow = "12px 12px 0px var(--blue-petrolium)";
-                }}
-                onMouseLeave={(e) => {
-                    const el = e.currentTarget;
-                    el.style.background = "var(--gray-dark)";
-                    el.style.borderColor = "var(--orange-burnt)";
-                    el.style.transform = "translate(0, 0)";
-                    el.style.boxShadow = "8px 8px 0px var(--blue-petrolium)";
+                    animationDelay: `${index * 0.12}s`,
                 }}
             >
                 {/* Category & Confidential Badge */}
@@ -45,7 +31,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                 >
                     <span
                         style={{
-                            color: "var(--teal-dark)",
+                            color: "var(--hyper-purple)",
                             fontSize: "8px",
                         }}
                     >
@@ -64,9 +50,10 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                 {/* Title */}
                 <h3
                     style={{
-                        color: "var(--gray-light)",
+                        color: "var(--neon-cyan)",
                         marginBottom: "12px",
-                        fontSize: "12px",
+                        fontSize: "11px",
+                        textShadow: "0 0 10px rgba(0, 243, 255, 0.3)",
                     }}
                 >
                     {project.title}
@@ -75,9 +62,10 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                 {/* Excerpt */}
                 <p
                     style={{
-                        color: "var(--gray-light)",
+                        color: "var(--foreground-muted)",
                         marginBottom: "24px",
                         lineHeight: 2,
+                        fontSize: "9px",
                     }}
                 >
                     {project.excerpt}
@@ -102,7 +90,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                 {/* View Link */}
                 <div
                     style={{
-                        color: "var(--orange-burnt)",
+                        color: "var(--hyper-purple)",
                         fontSize: "10px",
                         display: "flex",
                         alignItems: "center",

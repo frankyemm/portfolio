@@ -4,13 +4,26 @@ import { useState } from "react";
 import Link from "next/link";
 
 const navLinks = [
-    { href: "/", label: "HOME" },
-    { href: "/#projects", label: "PROJECTS" },
-    { href: "/#approach", label: "APPROACH" },
+    { id: "hero", label: "HOME", href: "/" },
+    { id: "projects", label: "PROJECTS", href: "/#projects" },
+    { id: "approach", label: "APPROACH", href: "/#approach" },
 ];
 
 export function Navigation() {
     const [isOpen, setIsOpen] = useState(false);
+
+    // Función genérica para scroll
+    const handleScroll = (e: React.MouseEvent, id: string) => {
+        // Solo prevenimos el comportamiento por defecto si estamos en la Home
+        if (window.location.pathname === "/") {
+            e.preventDefault();
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+                setIsOpen(false); // Cierra el menú móvil si está abierto
+            }
+        }
+    };
 
     return (
         <header
@@ -19,21 +32,23 @@ export function Navigation() {
                 top: 0,
                 left: 0,
                 right: 0,
-                zIndex: 50,
+                zIndex: 100, // Aumentado para estar sobre todo
             }}
         >
-            <nav className="retro-nav">
+            <nav className="retro-nav" style={{ background: "var(--bg-void)", borderBottom: "4px solid var(--teal-dark)" }}>
                 <div
                     className="container-retro"
                     style={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        padding: "12px 24px"
                     }}
                 >
                     {/* Logo */}
                     <Link
                         href="/"
+                        onClick={(e) => handleScroll(e, "hero")}
                         style={{
                             display: "flex",
                             alignItems: "center",
@@ -53,39 +68,31 @@ export function Navigation() {
                                 justifyContent: "center",
                                 fontSize: "10px",
                                 color: "var(--white)",
+                                boxShadow: "2px 2px 0 var(--blue-petrolium)"
                             }}
                         >
                             F
                         </span>
-                        <span style={{ fontSize: "10px" }}>PORTFOLIO</span>
+                        <span style={{ fontSize: "10px", letterSpacing: "1px" }}>PORTFOLIO</span>
                     </Link>
 
                     {/* Desktop Navigation */}
                     <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "0",
-                        }}
+                        style={{ display: "flex", alignItems: "center" }}
                         className="hidden md:flex"
                     >
                         {navLinks.map((link) => (
                             <Link
-                                key={link.href}
+                                key={link.id}
                                 href={link.href}
+                                onClick={(e) => handleScroll(e, link.id)}
+                                className="nav-link-retro"
                                 style={{
                                     color: "var(--gray-light)",
                                     textDecoration: "none",
                                     padding: "8px 16px",
                                     fontSize: "10px",
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = "var(--orange-burnt)";
-                                    e.currentTarget.style.color = "var(--white)";
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = "transparent";
-                                    e.currentTarget.style.color = "var(--gray-light)";
+                                    transition: "all 0.1s steps(1)"
                                 }}
                             >
                                 [{link.label}]
@@ -95,7 +102,7 @@ export function Navigation() {
 
                     {/* Contact Button */}
                     <a
-                        href="mailto:contact@example.com"
+                        href="mailto:frankycardona1927@gmail.com"
                         className="retro-btn hidden md:inline-block"
                         style={{
                             padding: "8px 16px",
@@ -110,16 +117,16 @@ export function Navigation() {
                         onClick={() => setIsOpen(!isOpen)}
                         className="md:hidden"
                         style={{
-                            padding: "8px",
-                            color: "var(--gray-light)",
+                            padding: "4px 8px",
+                            color: "var(--neon-cyan)",
                             background: "transparent",
-                            border: "2px solid var(--orange-burnt)",
+                            border: "2px solid var(--neon-cyan)",
                             cursor: "pointer",
                             fontSize: "10px",
+                            boxShadow: "2px 2px 0 var(--blue-petrolium)"
                         }}
-                        aria-label="Toggle menu"
                     >
-                        {isOpen ? "[X]" : "[=]"}
+                        {isOpen ? "[X]" : "[MENU]"}
                     </button>
                 </div>
 
@@ -129,36 +136,36 @@ export function Navigation() {
                         className="md:hidden"
                         style={{
                             borderTop: "4px solid var(--orange-burnt)",
-                            padding: "16px",
+                            padding: "24px",
                             background: "var(--gray-dark)",
+                            textAlign: "center"
                         }}
                     >
                         {navLinks.map((link) => (
                             <Link
-                                key={link.href}
+                                key={link.id}
                                 href={link.href}
-                                onClick={() => setIsOpen(false)}
+                                onClick={(e) => handleScroll(e, link.id)}
                                 style={{
                                     display: "block",
                                     color: "var(--gray-light)",
                                     textDecoration: "none",
-                                    padding: "12px 0",
+                                    padding: "16px 0",
                                     borderBottom: "2px solid var(--teal-dark)",
-                                    fontSize: "10px",
+                                    fontSize: "12px",
                                 }}
                             >
                                 {">"} {link.label}
                             </Link>
                         ))}
                         <a
-                            href="mailto:contact@example.com"
-                            onClick={() => setIsOpen(false)}
+                            href="mailto:frankycardona1927@gmail.com"
                             className="retro-btn"
                             style={{
                                 display: "inline-block",
-                                marginTop: "16px",
-                                fontSize: "8px",
-                                padding: "8px 16px",
+                                marginTop: "24px",
+                                fontSize: "10px",
+                                padding: "12px 24px",
                             }}
                         >
                             CONTACT
