@@ -940,3 +940,106 @@ li {
 .skip-link:focus {
   top: 16px;
 }
+
+/* ===============================
+   RPG STATS & ABOUT SECTION
+   =============================== */
+
+.retro-terminal-box {
+  background: rgba(0, 0, 0, 0.5);
+  border: 4px solid var(--teal-dark);
+  padding: 24px;
+  font-size: 12px;
+  line-height: 1.8;
+  box-shadow: 4px 4px 0px var(--blue-petrolium);
+}
+
+.stat-row {
+  margin-bottom: 15px;
+}
+
+.stat-bar {
+  height: 12px;
+  background: var(--gray-steel);
+  border: 2px solid var(--gray-muted);
+  margin-top: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan);
+  width: 0;
+  animation: fill-bar 1.5s steps(10) forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes fill-bar {
+  from {
+    width: 0;
+  }
+}
+
+/* ===============================
+   ACHIEVEMENT CARDS STYLES
+   =============================== */
+
+.achievement-card {
+  background: rgba(21, 25, 30, 0.9);
+  border: 2px solid var(--accent-color);
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  position: relative;
+  transition: all 0.2s steps(2);
+  box-shadow: 4px 4px 0px var(--blue-petrolium);
+}
+
+.achievement-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--accent-color);
+  filter: brightness(1.2);
+  z-index: 10;
+}
+
+.achievement-icon {
+  font-size: 24px;
+  filter: drop-shadow(0 0 5px var(--accent-color));
+}
+
+.achievement-rarity {
+  font-size: 7px;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.achievement-title {
+  font-size: 9px;
+  color: var(--white);
+  margin-bottom: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.achievement-desc {
+  font-size: 8px;
+  color: var(--foreground-muted);
+  line-height: 1.4;
+}
+
+/* Efecto de borde "doble" retro */
+.achievement-card::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}

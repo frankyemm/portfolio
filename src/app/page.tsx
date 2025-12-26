@@ -330,9 +330,39 @@ function ProjectsSection({ projects }: ProjectsSectionProps) {
   );
 }
 
+import { AboutSection } from "../components/sections/AboutSection";
+
+// ... (existing imports)
+
+// ... (existing components: TypewriterText, HeroSection, ApproachSection, ProjectsSection)
+
 // Main Page
 export default function HomePage() {
   const projects: ProjectFrontmatter[] = [
+    {
+      title: "ALPHANET: ACTION RECOGNITION",
+      slug: "alphanet",
+      excerpt: "DEEP LEARNING MODEL OPTIMIZED FOR TPU/CLOUD INFRASTRUCTURE.",
+      techStack: ["PYTHON", "TENSORFLOW", "TPU", "FLAX"],
+      category: "DATA / AI",
+      confidential: false,
+    },
+    {
+      title: "RESTAURANT GURU: NLP ANALYTICS",
+      slug: "restaurantguru",
+      excerpt: "SENTIMENT ANALYSIS PIPELINE WITH GCP, WEB SCRAPING, AND POWER BI.",
+      techStack: ["GCP", "PYTHON", "NLP", "POWER BI"],
+      category: "DATA / NLP",
+      confidential: false,
+    },
+    {
+      title: "MOVIE RECOMMENDER: AI ENGINE",
+      slug: "movie-recommender",
+      excerpt: "HIGH-PERFORMANCE RECOMMENDATION SYSTEM WITH 8-BIT MODEL QUANTIZATION.",
+      techStack: ["PYTHON", "SKLEARN", "FLASK", "MYSQL"],
+      category: "DATA / ML",
+      confidential: false,
+    },
     {
       title: "REAL-TIME INVENTORY SYSTEM",
       slug: "restaurant-inventory",
@@ -365,6 +395,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <AboutSection />
       <ApproachSection />
       <ProjectsSection projects={projects} />
     </>
