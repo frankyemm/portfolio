@@ -102,7 +102,7 @@ function HeroSection() {
         <h1
           style={{
             // 36px en móvil, 8vw para que crezca rápido, 90px máximo.
-            fontSize: "clamp(24px, 8vw, 48px)", 
+            fontSize: "clamp(24px, 8vw, 48px)",
             color: "var(--neon-cyan)",
             marginBottom: "32px",
             lineHeight: "1", // Títulos gigantes necesitan line-height corto
@@ -189,11 +189,11 @@ function HeroSection() {
 // Approach Section with Sequential Spaceship Animation
 function ApproachSection() {
   const { ref, isVisible } = useInViewAnimation<HTMLElement>(0.2);
-  const [step, setStep] = useState(-1); 
+  const [step, setStep] = useState(-1);
   const [isExploding, setIsExploding] = useState(false);
-  
+
   // NUEVO: Controla qué cuadros ya terminaron su explosión
-  const [revealedCount, setRevealedCount] = useState(-1); 
+  const [revealedCount, setRevealedCount] = useState(-1);
 
   useEffect(() => {
     if (isVisible && step === -1) {
@@ -205,13 +205,13 @@ function ApproachSection() {
     for (let i = 0; i < 4; i++) {
       setStep(i); // 1. La nave viaja a la posición i
       await new Promise(r => setTimeout(r, 700)); // Tiempo de viaje (ajustar si la nave va lento)
-      
+
       setIsExploding(true); // 2. ¡BOOM!
       await new Promise(r => setTimeout(r, 400)); // 3. Esperamos a que la animación de explosión casi termine
-      
+
       setIsExploding(false); // 4. Quitamos la explosión
       setRevealedCount(i);   // 5. JUSTO AQUÍ: El cuadro aparece ahora que la explosión se fue
-      
+
       await new Promise(r => setTimeout(r, 200)); // Pequeña pausa antes de ir al siguiente
     }
     setStep(4); // La nave se va
@@ -228,7 +228,7 @@ function ApproachSection() {
     <section ref={ref} id="approach" style={{ background: "var(--card-carbon)", padding: "96px 24px", overflow: 'hidden' }}>
       <div className="container-retro">
         <header style={{ textAlign: "center", marginBottom: "64px" }}>
-           <span className="retro-badge retro-badge-warning" style={{ marginBottom: "16px" }}>
+          <span className="retro-badge retro-badge-warning" style={{ marginBottom: "16px" }}>
             METHODOLOGY
           </span>
           <h2 style={{ color: "var(--neon-cyan)", marginTop: "24px", textShadow: "0 0 15px rgba(0, 243, 255, 0.4)" }}>
@@ -239,20 +239,20 @@ function ApproachSection() {
         <div className="approach-grid">
           {/* NAVE ESPACIAL */}
           <div className={`retro-spaceship ship-pos-${step} ${step >= 0 && step < 4 ? 'active' : ''}`}>
-             <img src="/space-ship.svg" style={{ width: '40px', filter: 'hue-rotate(90deg) brightness(1.5)' }} alt="ship" />
+            <img src="/space-ship.svg" style={{ width: '40px', filter: 'hue-rotate(90deg) brightness(1.5)' }} alt="ship" />
           </div>
 
           {approaches.map((app, index) => (
             <article
               key={index}
               className={`approach-card ${revealedCount >= index ? "revealed" : ""}`}
-        >
-          {/* El efecto de explosión sigue guiándose por 'step' para saber dónde ocurrir */}
-          {step === index && isExploding && <div className="pixel-explosion" />}
+            >
+              {/* El efecto de explosión sigue guiándose por 'step' para saber dónde ocurrir */}
+              {step === index && isExploding && <div className="pixel-explosion" />}
 
-          <div className="approach-num">{app.num}</div>
-          <h3 className="approach-title">{app.icon} {app.title}</h3>
-          <p className="approach-desc">{app.description}</p>
+              <div className="approach-num">{app.num}</div>
+              <h3 className="approach-title">{app.icon} {app.title}</h3>
+              <p className="approach-desc">{app.description}</p>
             </article>
           ))}
         </div>
@@ -312,7 +312,7 @@ function ProjectsSection({ projects }: ProjectsSectionProps) {
           aria-label="Project list"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
             gap: "24px",
           }}
         >

@@ -117,7 +117,7 @@ export function Navigation() {
                         onClick={() => setIsOpen(!isOpen)}
                         className="md:hidden"
                         style={{
-                            padding: "4px 8px",
+                            padding: "8px 12px",
                             color: "var(--neon-cyan)",
                             background: "transparent",
                             border: "2px solid var(--neon-cyan)",

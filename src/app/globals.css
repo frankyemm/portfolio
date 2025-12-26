@@ -537,6 +537,7 @@ li {
 }
 
 /* La explosión 8-bit */
+/* La explosión 8-bit */
 /* Contenedor de la explosión: centrado en la tarjeta */
 .pixel-explosion {
   position: absolute;
@@ -550,6 +551,15 @@ li {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+
+/* Ocultar nave y explosión en móviles */
+@media (max-width: 640px) {
+
+  .retro-spaceship,
+  .pixel-explosion {
+    display: none !important;
+  }
 }
 
 /* El bloque que crece y cambia de color */
