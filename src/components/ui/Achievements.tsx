@@ -3,7 +3,7 @@ export function Achievements() {
         {
             id: "neural_navigator",
             title: "NEURAL NAVIGATOR",
-            desc: "Sentiment analysis using DistilBERT & ABSA for restaurant reviews.",
+            desc: "Implemented Transformer-based architectures (DistilBERT) and ABSA for deep sentiment intelligence.",
             icon: "🧠",
             rarity: "LEGENDARY",
             color: "var(--neon-cyan)"
@@ -11,7 +11,7 @@ export function Achievements() {
         {
             id: "data_oracle",
             title: "DATA ORACLE",
-            desc: "Engineered a high-performance Movie Recommender system.",
+            desc: "Engineered scalable recommendation engines using advanced collaborative filtering techniques.",
             icon: "🔮",
             rarity: "EPIC",
             color: "var(--hyper-purple)"
@@ -19,7 +19,7 @@ export function Achievements() {
         {
             id: "hardware_hacker",
             title: "HARDWARE HACKER",
-            desc: "Optimized AlphaNet models to run on TPU/Cloud infrastructure.",
+            desc: "Optimized Deep Learning models for Cloud TPU infrastructure and high-performance computing.",
             icon: "⚡",
             rarity: "RARE",
             color: "var(--orange-burnt)"
@@ -27,7 +27,7 @@ export function Achievements() {
         {
             id: "fullstack_hero",
             title: "SYSTEM ARCHITECT",
-            desc: "Deployed secure enterprise-grade logistics & inventory ecosystems.",
+            desc: "Architected end-to-end enterprise ecosystems for mission-critical logistics and inventory tracking.",
             icon: "🏗️",
             rarity: "RARE",
             color: "var(--teal-dark)"
@@ -35,7 +35,7 @@ export function Achievements() {
         {
             id: "kpi_architect",
             title: "KPI ARCHITECT",
-            desc: "Built complex Power BI Dashboards for customer loyalty and satisfaction tracking.",
+            desc: "Designed executive Business Intelligence centers with complex DAX measures and real-time data viz.",
             icon: "📊",
             rarity: "EPIC",
             color: "#F2C811"
@@ -55,7 +55,7 @@ export function Achievements() {
 
             <div style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", 
                 gap: "20px"
             }}>
                 {unlockedAchievements.map((achiv) => (

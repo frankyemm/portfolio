@@ -92,10 +92,10 @@ function HeroSection() {
             animationDuration: "0.2s",
             animationTimingFunction: "steps(3)",
             animationFillMode: "forwards",
-            border: "2px solid var(--hyper-purple)",
+            border: "2px solid var(--neon-cyan)",
           }}
         >
-          {"< FULL STACK ENGINEER />"}
+          {"< FULL STACK ENGINEER // DATA ARCHITECT />"}
         </div>
 
         {/* Typewriter Headline - Proporcional al subtítulo (2.5x) */}
@@ -137,10 +137,10 @@ function HeroSection() {
             animationFillMode: "forwards",
           }}
         >
-          TRANSFORMING COMPLEX CHALLENGES INTO ELEGANT SOLUTIONS.
+          TRANSFORMING COMPLEX DATA INTO ELEGANT APPLICATIONS.
           <br />
           <span style={{ color: "var(--hyper-purple)", fontWeight: 'bold' }}>
-            SECURITY AND PERFORMANCE ARE NON-NEGOTIABLE.
+            FROM ETL PIPELINES TO SECURE FRONTEND INTERFACES.
           </span>
         </p>
 
