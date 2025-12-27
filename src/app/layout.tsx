@@ -56,15 +56,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    /* 1. Añadido suppressHydrationWarning aquí para ignorar atributos de extensiones */
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#0B0E11" />
         <meta name="color-scheme" content="dark" />
         <link rel="canonical" href="https://frankyemm.dev" />
       </head>
       <body
+        /* 2. Añadido suppressHydrationWarning aquí para ignorar clases extra como "antigravity" */
         className={`${pixelFont.variable} font-sans scanlines`}
         style={{ fontFamily: "var(--font-pixel)" }}
+        suppressHydrationWarning
       >
         {/* Skip Link for Accessibility */}
         <a href="#hero" className="skip-link">

@@ -56,25 +56,26 @@ export function Navigation() {
                             gap: "8px",
                             color: "var(--gray-light)",
                             textDecoration: "none",
+                            flexShrink: 0, // Prevent logo from shrinking
                         }}
                     >
                         <span
                             style={{
-                                width: "24px",
-                                height: "24px",
+                                width: "clamp(20px, 4vw, 24px)",
+                                height: "clamp(20px, 4vw, 24px)",
                                 background: "var(--orange-burnt)",
                                 border: "2px solid var(--gray-light)",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                fontSize: "10px",
+                                fontSize: "clamp(8px, 2vw, 10px)",
                                 color: "var(--white)",
                                 boxShadow: "2px 2px 0 var(--blue-petrolium)"
                             }}
                         >
                             F
                         </span>
-                        <span style={{ fontSize: "10px", letterSpacing: "1px" }}>PORTFOLIO</span>
+                        <span style={{ fontSize: "clamp(8px, 2.5vw, 10px)", letterSpacing: "1px" }}>PORTFOLIO</span>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -93,7 +94,8 @@ export function Navigation() {
                                     textDecoration: "none",
                                     padding: "8px 16px",
                                     fontSize: "10px",
-                                    transition: "all 0.1s steps(1)"
+                                    transition: "all 0.1s steps(1)",
+                                    whiteSpace: "nowrap"
                                 }}
                             >
                                 [{link.label}]

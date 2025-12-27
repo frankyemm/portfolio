@@ -55,8 +55,8 @@ export function Achievements() {
 
             <div style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", 
-                gap: "20px"
+                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                gap: "16px"
             }}>
                 {unlockedAchievements.map((achiv) => (
                     <div
