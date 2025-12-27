@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Achievements } from "../ui/Achievements";
+import { TechMarquee } from "../ui/TechMarquee";
 
 export function AboutSection() {
     const [mounted, setMounted] = useState(false);
@@ -158,6 +159,18 @@ export function AboutSection() {
 
                 <div style={{ marginTop: "80px" }}>
                     <Achievements />
+                </div>
+                <div style={{ marginTop: "80px" }}>
+                    <p style={{ 
+                        textAlign: 'center', 
+                        fontSize: '8px', 
+                        color: 'var(--teal-dark)', 
+                        marginBottom: '16px',
+                        fontFamily: 'var(--font-pixel)' 
+                    }}>
+                        [ CURRENT_TECH_STACK ]
+                    </p>
+                    <TechMarquee />
                 </div>
             </div>
         </section>
