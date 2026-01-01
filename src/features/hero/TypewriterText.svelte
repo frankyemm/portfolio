@@ -41,29 +41,23 @@
 
 <style>
   .typewriter {
-    /* Esto asegura que el contenedor herede el tamaño de la h1 del Hero */
     font-size: inherit !important;
-    font-family: inherit !important;
-    line-height: inherit !important;
+    font-family: inherit;
+    line-height: inherit;
   }
 
   .cursor {
-    display: inline-flex;
+    display: inline-block; /* Cambiado de inline-flex para mejor alineación */
+    
+    /* ANCHO: 0.15em es un grosor de palito perfecto y proporcional */
+    width: 0.15em; 
 
-    /* 1. ANCHO DINÁMICO: */
-    /* En lugar de clamp, usamos em. 0.1em significa que siempre será 
-       un 10% del grosor de la letra actual */
-    width: 0.5em;
+    /* ALTO: 1em para que mida exactamente lo mismo que la letra */
+    height: 1em;
 
-    /* 2. ALTO DINÁMICO: */
-    /* 1em hará que mida exactamente lo mismo que la altura de la letra. 
-       Si quieres que sobresalga un poco, puedes usar 1.1em o 1.2em */
-    height: 4em;
-
-    /* 3. MARGEN DINÁMICO: */
-    /* Para que el espacio entre la letra y el cursor también sea proporcional */
     margin-left: 0.15em;
-
-    vertical-align: top;
+    
+    /* Alineación: baseline o middle suelen funcionar mejor que top */
+    vertical-align: middle; 
   }
 </style>

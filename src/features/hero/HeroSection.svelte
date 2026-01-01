@@ -94,13 +94,16 @@
   }
 
   .hero-headline {
-    font-size: clamp(10px, 9vw, 40px);
+    /* Mínimo 32px (móvil), 10vw (fluido), 90px (máximo escritorio) */
+    font-size: clamp(32px, 10vw, 90px); 
+    
     color: var(--neon-cyan);
     margin-bottom: 20px;
-    line-height: 1.2;
+    line-height: 1.1;
     font-weight: bold;
-    text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
-    letter-spacing: -1px;
+    text-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+    letter-spacing: -2px; /* Un poco más apretado para el look retro */
+    display: block;
   }
 
   .hero-subtitle {
