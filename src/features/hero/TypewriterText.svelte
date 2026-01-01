@@ -1,6 +1,6 @@
 <script>
   let { text = "" } = $props();
-  
+
   let displayedText = $state("");
   let showCursor = $state(true);
   let indexRef = 0;
@@ -28,10 +28,14 @@
 
 <span class="typewriter">
   {displayedText}
-  <span 
-    class="cursor" 
+  <span
+    class="cursor"
     aria-hidden="true"
-    style="background-color: {showCursor ? 'var(--neon-cyan)' : 'transparent'}; box-shadow: {showCursor ? '0 0 10px var(--neon-cyan)' : 'none'};"
+    style="background-color: {showCursor
+      ? 'var(--neon-cyan)'
+      : 'transparent'}; box-shadow: {showCursor
+      ? '0 0 10px var(--neon-cyan)'
+      : 'none'};"
   ></span>
 </span>
 
@@ -45,21 +49,9 @@
 
   .cursor {
     display: inline-flex;
-    
-    /* 1. ANCHO DINÁMICO: */
-    /* En lugar de clamp, usamos em. 0.1em significa que siempre será 
-       un 10% del grosor de la letra actual */
-    width: 0.5em; 
-    
-    /* 2. ALTO DINÁMICO: */
-    /* 1em hará que mida exactamente lo mismo que la altura de la letra. 
-       Si quieres que sobresalga un poco, puedes usar 1.1em o 1.2em */
-    height: 4em; 
-    
-    /* 3. MARGEN DINÁMICO: */
-    /* Para que el espacio entre la letra y el cursor también sea proporcional */
-    margin-left: 0.15em;
-    
-    vertical-align: top;
+    width: 0.15em;
+    height: 0.9em;
+    margin-left: 0.1em;
+    vertical-align: middle;
   }
 </style>

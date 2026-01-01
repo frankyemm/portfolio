@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Press Start 2P';
-  src: url('/public/fonts/press-start-2p.woff2') format('woff2');
+  src: url('/fonts/press-start-2p.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -362,7 +362,7 @@ h6 {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 10vw, 4rem);
 }
 
 h2 {
@@ -1039,20 +1039,13 @@ li {
    =============================== */
 
 @media (max-width: 768px) {
-  h1 {
-    font-size: 14px;
-  }
-
-  h2 {
-    font-size: 12px;
-  }
 
   h3,
   p,
   span,
   a,
   li {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .retro-btn {
@@ -1077,10 +1070,6 @@ li {
   .container-retro {
     padding-left: 16px;
     padding-right: 16px;
-  }
-
-  h1 {
-    font-size: 12px;
   }
 
   .retro-btn {
