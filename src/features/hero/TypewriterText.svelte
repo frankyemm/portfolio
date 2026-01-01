@@ -26,7 +26,7 @@
   });
 </script>
 
-<span class="typewriter">
+<div class="typewriter-container">
   {displayedText}
   <span
     class="cursor"
@@ -37,27 +37,23 @@
       ? '0 0 10px var(--neon-cyan)'
       : 'none'};"
   ></span>
-</span>
+</div>
 
 <style>
-  .typewriter {
-    font-size: inherit !important;
+  .typewriter-container {
+    /* inline-block permite que se comporte como texto dentro del h1 */
+    display: inline-block;
+    font-size: inherit !important; 
     font-family: inherit;
     line-height: inherit;
+    color: inherit;
   }
 
   .cursor {
-    display: inline-block; /* Cambiado de inline-flex para mejor alineación */
-    
-    /* ANCHO: 0.15em es un grosor de palito perfecto y proporcional */
+    display: inline-block;
     width: 0.15em; 
-
-    /* ALTO: 1em para que mida exactamente lo mismo que la letra */
-    height: 1em;
-
-    margin-left: 0.15em;
-    
-    /* Alineación: baseline o middle suelen funcionar mejor que top */
-    vertical-align: middle; 
+    height: 0.9em; 
+    margin-left: 0.1em;
+    vertical-align: middle;
   }
 </style>

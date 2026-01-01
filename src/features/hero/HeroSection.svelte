@@ -94,21 +94,24 @@
   }
 
   .hero-headline {
-    /* Mínimo 32px (móvil), 10vw (fluido), 90px (máximo escritorio) */
-    font-size: clamp(32px, 10vw, 90px); 
+    /* Mínimo 28px (para que quepa en móviles), 10vw, y máximo 80px para PC */
+    /* El !important es clave para ganar la batalla al global.css */
+    font-size: clamp(28px, 10vw, 80px) !important; 
     
     color: var(--neon-cyan);
     margin-bottom: 20px;
     line-height: 1.1;
     font-weight: bold;
     text-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
-    letter-spacing: -2px; /* Un poco más apretado para el look retro */
+    letter-spacing: -2px; 
     display: block;
+    width: 100%;
   }
 
   .hero-subtitle {
+    /* Bonus: si el subtítulo se ve pequeño, cámbialo a 1.2rem */
     color: var(--foreground-muted);
-    font-size: clamp(10px, 3.5vw, 18px);
+    font-size: clamp(14px, 3.5vw, 18px); 
     max-width: 850px;
     margin: 0 auto 40px;
     line-height: 1.6;
