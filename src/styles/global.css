@@ -1038,11 +1038,6 @@ li {
    RESPONSIVE
    =============================== */
 
-@media (max-width: 768px) {
-  h1 {
-    font-size: 14px;
-  }
-
   h2 {
     font-size: 12px;
   }
@@ -1080,9 +1075,6 @@ li {
     padding-right: 16px;
   }
 
-  h1 {
-    font-size: 12px;
-  }
 
   .retro-btn {
     padding: 8px 12px;
