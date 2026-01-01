@@ -94,13 +94,13 @@
   }
 
   .hero-headline {
-    font-size: clamp(1.5rem, 9vw, 5rem);
+    font-size: clamp(10px, 9vw, 40px);
     color: var(--neon-cyan);
-    margin-bottom: 24px;
-    line-height: 1.1;
+    margin-bottom: 20px;
+    line-height: 1.2;
     font-weight: bold;
     text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
-    letter-spacing: -2px;
+    letter-spacing: -1px;
   }
 
   .hero-subtitle {
