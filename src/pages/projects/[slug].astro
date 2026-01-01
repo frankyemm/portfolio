@@ -1,0 +1,198 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navigation from '../../features/shared/Navigation.svelte';
+import Footer from '../../features/shared/Footer.svelte';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={`${project.data.title} | Franky Cardona`}>
+  <Navigation slot="navigation" client:load />
+
+  <article class="project-detail">
+    <div class="container-retro">
+      <!-- Header -->
+      <header class="project-header">
+        <div class="header-meta">
+          <span class="category">[{project.data.category}]</span>
+          {project.data.confidential && (
+            <span class="retro-badge retro-badge-warning confidential-badge">
+              🔒 CLASSIFIED
+            </span>
+          )}
+        </div>
+        
+        <h1 class="project-title" transition:name={`project-title-${project.slug}`}>{project.data.title}</h1>
+        
+        <p class="project-excerpt">{project.data.excerpt}</p>
+        
+        <div class="tech-stack">
+          {project.data.techStack.map(tech => (
+            <span class="retro-tag">{tech}</span>
+          ))}
+        </div>
+      </header>
+      
+      <div class="divider"></div>
+      
+      <!-- Content -->
+      <div class="prose-retro">
+        <Content />
+      </div>
+      
+      <div class="divider"></div>
+      
+      <!-- Footer Actions -->
+      <div class="project-actions">
+        <a href="/#projects" class="retro-btn back-btn">
+          &lt;&lt; RETURN TO CONTROL CENTER
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <Footer slot="footer" client:visible />
+</BaseLayout>
+
+<script>
+  async function initMermaid() {
+    const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"] code, pre.mermaid code, code.language-mermaid');
+    if (mermaidBlocks.length === 0) return;
+
+    const observer = new IntersectionObserver(async (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const block = entry.target;
+          observer.unobserve(block);
+          
+          // Import mermaid only when needed
+          const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs');
+          
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            themeVariables: {
+              fontFamily: 'var(--font-pixel)',
+              primaryColor: '#00F3FF',
+              primaryTextColor: '#FFFFFF',
+              primaryBorderColor: '#9D00FF',
+              lineColor: '#00F3FF',
+              secondaryColor: '#15191E',
+              tertiaryColor: '#0B0E11',
+              mainBkg: '#15191E',
+              nodeBorder: '#00F3FF',
+              clusterBkg: '#0B0E11',
+              titleColor: '#00F3FF',
+              edgeLabelBackground: '#15191E',
+              fontSize: '10px',
+            },
+            flowchart: { curve: 'linear', padding: 20 }
+          });
+
+          const pre = block.parentElement;
+          const code = block.textContent;
+          const id = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
+          
+          const wrapper = document.createElement('div');
+          wrapper.className = 'mermaid-wrapper';
+          wrapper.innerHTML = `<div id="${id}" class="mermaid-loading">LOADING SCHEMATIC...</div>`;
+          
+          if (pre && pre.parentElement) {
+            pre.parentElement.replaceChild(wrapper, pre);
+            try {
+              const { svg } = await mermaid.render(id, code);
+              wrapper.innerHTML = svg;
+            } catch (error) {
+              console.error('Mermaid error:', error);
+              wrapper.innerHTML = `<div class="mermaid-error">ERROR: SCHEMATIC RENDER FAILED</div>`;
+            }
+          }
+        }
+      }
+    }, { rootMargin: '100px' });
+
+    mermaidBlocks.forEach(block => observer.observe(block));
+  }
+  
+  // Run on load and page-load
+  initMermaid();
+  document.addEventListener('astro:page-load', initMermaid);
+</script>
+
+<style>
+  .project-detail {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    background: var(--bg-void);
+    min-height: 100vh;
+  }
+
+  .project-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .category {
+    color: var(--hyper-purple);
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .project-title {
+    font-size: clamp(20px, 5vw, 40px);
+    color: var(--neon-cyan);
+    margin-bottom: 24px;
+    text-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+    line-height: 1.2;
+  }
+
+  .project-excerpt {
+    color: var(--foreground-muted);
+    max-width: 800px;
+    margin: 0 auto 32px;
+    font-size: clamp(10px, 3vw, 14px);
+    line-height: 1.6;
+  }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .divider {
+    height: 4px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--hyper-purple), var(--neon-cyan));
+    margin: 48px 0;
+    opacity: 0.5;
+  }
+
+  .project-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 64px;
+  }
+
+  .back-btn {
+    text-decoration: none;
+  }
+</style>

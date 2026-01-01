@@ -1,0 +1,43 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+import { ClientRouter } from 'astro:transitions';
+
+const { 
+  title = "Franky Cardona | Full Stack Engineer",
+  description = "Portfolio showcasing data architecture, AI/ML projects, and full-stack development"
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scanlines">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preload" href="/fonts/press-start-2p.woff2" as="font" type="font/woff2" crossorigin />
+  <ClientRouter />
+  
+  <title>{title}</title>
+</head>
+<body>
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <slot name="navigation" />
+  
+  <main id="main-content">
+    <slot />
+  </main>
+  
+  <slot name="footer" />
+</body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

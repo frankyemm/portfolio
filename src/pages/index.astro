@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../features/shared/Navigation.svelte';
+import Footer from '../features/shared/Footer.svelte';
+import HeroSection from '../features/hero/HeroSection.svelte';
+import AboutSection from '../features/about/AboutSection.svelte';
+import ApproachSection from '../features/approach/ApproachSection.svelte';
+import ProjectsSection from '../features/projects/ProjectsSection.svelte';
+import { getCollection } from 'astro:content';
+
+// Fetch projects from content collection
+const allProjects = await getCollection('projects');
+// Sort projects (optional, could be by date or priority if field existed)
+const sortedProjects = allProjects.sort((a, b) => {
+  // Simple sort by title for now, or maintain original order if no specific sort needed
+  return 0; 
+});
+
+const projects = sortedProjects.map(p => ({
+  ...p.data,
+  slug: p.slug
+}));
+---
+
+<BaseLayout title="Franky Cardona | Full Stack Engineer">
+  <Navigation slot="navigation" client:load />
+  
+  <div class="scanlines"></div>
+  
+  <HeroSection client:load />
+  <AboutSection client:visible />
+  <ApproachSection client:visible />
+  <ProjectsSection projects={projects} client:visible />
+  
+  <Footer slot="footer" client:visible />
+</BaseLayout>
