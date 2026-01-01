@@ -42,7 +42,7 @@
 <style>
   .typewriter {
     /* Esto asegura que el contenedor herede el tamaño de la h1 del Hero */
-    font-size: inherit;
+    font-size: inherit !important;
     font-family: inherit;
     line-height: inherit;
   }
