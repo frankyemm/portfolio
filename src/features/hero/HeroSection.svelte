@@ -96,7 +96,7 @@
   .hero-headline {
     /* Mínimo 28px (para que quepa en móviles), 10vw, y máximo 80px para PC */
     /* El !important es clave para ganar la batalla al global.css */
-    font-size: clamp(28px, 10vw, 80px) !important; 
+    font-size: clamp(16px, 10vw, 30px) !important; 
     
     color: var(--neon-cyan);
     margin-bottom: 20px;
