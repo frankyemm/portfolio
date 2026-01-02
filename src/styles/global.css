@@ -1258,3 +1258,45 @@ li {
     display: inline-block;
   }
 }
+
+/* Estilo para el Diagrama de Flujo de Datos */
+.data-flow-box {
+  background: #15191E; /* Color similar al de tu imagen */
+  border-left: 8px solid #E25822; /* El "palito" naranja grueso */
+  border-top: 1px solid #1A1E24;
+  border-right: 1px solid #1A1E24;
+  border-bottom: 1px solid #1A1E24;
+  padding: 24px;
+  margin: 20px 0;
+  font-family: var(--font-pixel);
+  display: grid;
+  /* Creamos 4 columnas iguales */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 20px;
+}
+
+.data-flow-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.data-flow-label {
+  color: #E25822; /* Color naranja de los títulos */
+  font-size: 9px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.data-flow-value {
+  color: #B0B8C1; /* Color gris claro para el contenido */
+  font-size: 8px;
+  line-height: 1.6;
+}
+
+/* Responsivo: en móvil se ponen uno debajo del otro */
+@media (max-width: 768px) {
+  .data-flow-box {
+    grid-template-columns: 1fr;
+  }
+}

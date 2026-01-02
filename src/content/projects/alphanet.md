@@ -51,7 +51,27 @@ graph TD
 
 ## // DATA_FLOW //
 
-> **INPUT_STREAM**: Raw video files (AVI/MP4) -> **PREPROCESSING**: Resize, Normalize, Temporal Crop -> **INFERENCE**: AlphaNet Forward Pass -> **OUTPUT**: Action Label.
+<div class="data-flow-box">
+  <div class="data-flow-item">
+    <span class="data-flow-label">! INPUT_STREAM :</span>
+    <span class="data-flow-value">Raw video files (AVI/MP4) -></span>
+  </div>
+  
+  <div class="data-flow-item">
+    <span class="data-flow-label">PREPROCESSING :</span>
+    <span class="data-flow-value">Resize, Normalize, Temporal Crop -></span>
+  </div>
+  
+  <div class="data-flow-item">
+    <span class="data-flow-label">INFERENCE :</span>
+    <span class="data-flow-value">AlphaNet Forward Pass -></span>
+  </div>
+  
+  <div class="data-flow-item">
+    <span class="data-flow-label">OUTPUT :</span>
+    <span class="data-flow-value">Action Label.</span>
+  </div>
+</div>
 
 ---
 
